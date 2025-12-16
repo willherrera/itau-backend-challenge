@@ -1,0 +1,141 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "API para validação de senhas com regras específicas de segurança\n\nRegras de validação:\n- Mínimo de 9 caracteres\n- Pelo menos 1 dígito\n- Pelo menos 1 letra minúscula\n- Pelo menos 1 letra maiúscula\n- Pelo menos 1 caractere especial (!@#$%^\u0026*()-+)\n- Não deve conter caracteres repetidos",
+        "title": "Password Validator API",
+        "contact": {
+            "url": "https://github.com/willherrera/itau-backend-challenge"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/health": {
+            "get": {
+                "description": "Verifica se a API está funcionando corretamente",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health check",
+                "responses": {
+                    "200": {
+                        "description": "API está saudável",
+                        "schema": {
+                            "$ref": "#/definitions/models.HealthResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/validate-password": {
+            "post": {
+                "description": "Valida se uma senha atende a todos os critérios de segurança definidos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Password"
+                ],
+                "summary": "Valida uma senha",
+                "parameters": [
+                    {
+                        "description": "Senha a ser validada",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ValidatePasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resultado da validação",
+                        "schema": {
+                            "$ref": "#/definitions/models.ValidatePasswordResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Método não permitido",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Bad Request"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Invalid request body"
+                }
+            }
+        },
+        "models.HealthResponse": {
+            "type": "object",
+            "properties": {
+                "service": {
+                    "type": "string",
+                    "example": "password-validator"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "healthy"
+                }
+            }
+        },
+        "models.ValidatePasswordRequest": {
+            "type": "object",
+            "required": [
+                "password"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "example": "AbTp9!fok"
+                }
+            }
+        },
+        "models.ValidatePasswordResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        ""
+                    ]
+                },
+                "isValid": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        }
+    }
+}

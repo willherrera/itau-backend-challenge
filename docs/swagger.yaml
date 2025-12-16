@@ -1,0 +1,102 @@
+definitions:
+  models.ErrorResponse:
+    properties:
+      error:
+        example: Bad Request
+        type: string
+      message:
+        example: Invalid request body
+        type: string
+    type: object
+  models.HealthResponse:
+    properties:
+      service:
+        example: password-validator
+        type: string
+      status:
+        example: healthy
+        type: string
+    type: object
+  models.ValidatePasswordRequest:
+    properties:
+      password:
+        example: AbTp9!fok
+        type: string
+    required:
+    - password
+    type: object
+  models.ValidatePasswordResponse:
+    properties:
+      errors:
+        example:
+        - ""
+        items:
+          type: string
+        type: array
+      isValid:
+        example: true
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact:
+    url: https://github.com/willherrera/itau-backend-challenge
+  description: |-
+    API para validação de senhas com regras específicas de segurança
+
+    Regras de validação:
+    - Mínimo de 9 caracteres
+    - Pelo menos 1 dígito
+    - Pelo menos 1 letra minúscula
+    - Pelo menos 1 letra maiúscula
+    - Pelo menos 1 caractere especial (!@#$%^&*()-+)
+    - Não deve conter caracteres repetidos
+  title: Password Validator API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      description: Verifica se a API está funcionando corretamente
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: API está saudável
+          schema:
+            $ref: '#/definitions/models.HealthResponse'
+      summary: Health check
+      tags:
+      - Health
+  /validate-password:
+    post:
+      consumes:
+      - application/json
+      description: Valida se uma senha atende a todos os critérios de segurança definidos
+      parameters:
+      - description: Senha a ser validada
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ValidatePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Resultado da validação
+          schema:
+            $ref: '#/definitions/models.ValidatePasswordResponse'
+        "400":
+          description: Requisição inválida
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "405":
+          description: Método não permitido
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Valida uma senha
+      tags:
+      - Password
+schemes:
+- http
+swagger: "2.0"
