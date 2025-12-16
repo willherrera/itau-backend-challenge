@@ -31,7 +31,7 @@ func NewPasswordHandler(service *application.PasswordService) *PasswordHandler {
 // @Success 200 {object} models.ValidatePasswordResponse "Resultado da validação"
 // @Failure 400 {object} models.ErrorResponse "Requisição inválida"
 // @Failure 405 {object} models.ErrorResponse "Método não permitido"
-// @Router /validate-password [post]
+// @Router /api/v1/validate-password [post]
 func (h *PasswordHandler) ValidatePassword(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 	metrics.InProgress.Inc()

@@ -17,27 +17,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/health": {
-            "get": {
-                "description": "Verifica se a API está funcionando corretamente",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Health"
-                ],
-                "summary": "Health check",
-                "responses": {
-                    "200": {
-                        "description": "API está saudável",
-                        "schema": {
-                            "$ref": "#/definitions/models.HealthResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/validate-password": {
+        "/api/v1/validate-password": {
             "post": {
                 "description": "Valida se uma senha atende a todos os critérios de segurança definidos",
                 "consumes": [
@@ -78,6 +58,26 @@ const docTemplate = `{
                         "description": "Método não permitido",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "description": "Verifica se a API está funcionando corretamente",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health check",
+                "responses": {
+                    "200": {
+                        "description": "API está saudável",
+                        "schema": {
+                            "$ref": "#/definitions/models.HealthResponse"
                         }
                     }
                 }

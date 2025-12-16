@@ -54,20 +54,7 @@ info:
   title: Password Validator API
   version: "1.0"
 paths:
-  /health:
-    get:
-      description: Verifica se a API está funcionando corretamente
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: API está saudável
-          schema:
-            $ref: '#/definitions/models.HealthResponse'
-      summary: Health check
-      tags:
-      - Health
-  /validate-password:
+  /api/v1/validate-password:
     post:
       consumes:
       - application/json
@@ -97,6 +84,19 @@ paths:
       summary: Valida uma senha
       tags:
       - Password
+  /health:
+    get:
+      description: Verifica se a API está funcionando corretamente
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: API está saudável
+          schema:
+            $ref: '#/definitions/models.HealthResponse'
+      summary: Health check
+      tags:
+      - Health
 schemes:
 - http
 swagger: "2.0"
